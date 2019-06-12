@@ -48,6 +48,7 @@ public class Login extends AppCompatActivity {
                                 if (response.trim().equals("success")) {
                                     MainActivity.LogPass = true;
                                     Toast.makeText(Login.this, "Logged in!", Toast.LENGTH_LONG).show();
+                                    finish();
                                 } else {
                                     Toast.makeText(Login.this, "Wrong username or password!", Toast.LENGTH_LONG).show();
                                 }

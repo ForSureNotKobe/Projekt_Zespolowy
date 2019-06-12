@@ -37,6 +37,7 @@ public class BarcodeScanner extends AppCompatActivity implements ZXingScannerVie
     ProductSpec productSpec = new ProductSpec();
     private static final int REQUEST_CAMERA = 1;
     private ZXingScannerView scannerView;
+    public  static String NewBarcode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +126,7 @@ public class BarcodeScanner extends AppCompatActivity implements ZXingScannerVie
     @Override
     public void handleResult(Result result) {
         final String scanResult = result.getText();
+        NewBarcode = scanResult;
         searchProduct(scanResult);
     }
 
@@ -146,8 +148,18 @@ public class BarcodeScanner extends AppCompatActivity implements ZXingScannerVie
                                     scannerView.resumeCameraPreview(BarcodeScanner.this);
                                 }
                             });
+                            if (response.trim().contains("Product not found")) {
+                                builder.setNegativeButton("ADD", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
 
-                            //searchProduct(scanResult);
+                                        Intent intent_AddProduct = new Intent(getApplicationContext(), AddProduct.class);
+                                        startActivity(intent_AddProduct);
+                                        scannerView.resumeCameraPreview(BarcodeScanner.this);
+                                    }
+                                });
+                            }
+
                             builder.setMessage(productSpec.getProductName());
                             AlertDialog alert = builder.create();
                             alert.show();
